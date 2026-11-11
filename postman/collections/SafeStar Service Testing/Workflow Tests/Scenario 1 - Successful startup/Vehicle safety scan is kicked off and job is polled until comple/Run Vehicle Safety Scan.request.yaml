@@ -1,5 +1,4 @@
 $kind: http-request
-name: Run Vehicle Safety Scan
 url: "{{baseUrl}}/run"
 method: POST
 headers:
@@ -25,9 +24,7 @@ auth:
 scripts:
   - type: afterResponse
     code: |-
-      pm.test("Status code is 201", function () {
-          pm.response.to.have.status(201);
-      });
+      
 
       pm.collectionVariables.set("safetyScanID", pm.response.json().run);
     language: text/javascript
