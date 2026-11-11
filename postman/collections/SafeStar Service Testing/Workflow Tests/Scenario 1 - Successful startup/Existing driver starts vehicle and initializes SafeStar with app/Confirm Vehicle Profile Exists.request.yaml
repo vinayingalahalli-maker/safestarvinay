@@ -1,0 +1,37 @@
+$kind: http-request
+url: "{{baseUrl}}/vehicle/:id"
+method: GET
+pathVariables:
+  id: "{{vehicleID}}"
+auth:
+  type: jwt
+  credentials:
+    isSecretBase64Encoded: true
+    secret: "{{jwtSecret}}"
+    algorithm: HS256
+    payload: "{}"
+    addTokenTo: header
+    headerPrefix: Bearer
+    queryParamKey: token
+    header: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      const vinDecode = pm.require('npm:vin-decode@0.2.0');
+
+      const qaworkshoppackage = pm.require('@postvehicle-enterprise-team-447243f2-d441-4868-93e3-2c2904af/qaworkshoppackage');
+      pm.test("VIN is a well formmated data",()=>{
+          const vin=pm.response.json().vehicle.vin;
+          console.log("Checking VIN if its valid..... "+vin);
+          pm.expect(vin).to.be.a('string');
+          pm.expect(qaworkshoppackage.isValidVIN(vin)).to.be.true;
+          console.log("Now Decoding it....");
+          console.log(vinDecode(vin).decode());
+      });
+    language: text/javascript
+    packages:
+      npm:vin-decode@0.2.0:
+        id: npm:vin-decode@0.2.0
+      "@postvehicle-enterprise-team-447243f2-d441-4868-93e3-2c2904af/qaworkshoppackage":
+        id: 01a1c9cb-8d39-79c9-a233-90b0971d44ad
+order: 2000

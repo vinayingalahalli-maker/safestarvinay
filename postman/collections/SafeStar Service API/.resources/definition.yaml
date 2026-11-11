@@ -1,10 +1,4 @@
 $kind: collection
-summary: 'The SafeStar Service API is a Platform Engineering microservice at
-  PostVehicle Enterprises that tracks driver and vehicle safety metrics. It
-  manages safety profiles, runs asynchronous safety scans on driver-vehicle
-  pairings, and generates diagnostic reports. Once checks are complete, it
-  delivers personalized Driver Messages with tailored feedback to help drivers
-  improve their safety performance.'
 name: SafeStar Service API
 description: >-
   ## Overview
